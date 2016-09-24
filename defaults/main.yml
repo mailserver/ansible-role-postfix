@@ -26,6 +26,8 @@ postfix_default_config:
   
   # Daemon User and Group
   daemon_user: "postfix"
+  daemon_group: "postfix"
+  daemon_user_home: "/var/spool/postfix"
   milter_group: "milter"
 
   recipient_delimiter:

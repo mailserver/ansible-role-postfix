@@ -1,8 +1,16 @@
 ---
 
-- name: Additional group memberships
-  when: additional_group_memberships != None
-  user: name={{postfix_user}} append=yes groups="{{item}}"
-  with_items: "{{additional_group_memberships}}"
-  notify:
-    - restart postfix
+- name: postfix daemon group exists
+  group:
+    name: "{{ _postfix_config.daemon_group }}"
+    state: present
+    system: true
+
+- name: postfix daemon user exists and is member of milter group
+  user:
+    name: "{{ _postfix_config.daemon_user }}"
+    group: "{{ _postfix_config.daemon_group }}"
+    groups: "{{ _postfix_config.milter_group }}"
+    home: "{{ _postfix_config.daemon_user_home }}"
+    append: true
+    system: true

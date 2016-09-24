@@ -1,5 +1,9 @@
 ---
 
+# Combine Configuration
+- set_fact: _postfix_config="{{ postfix_default_config | combine(postfix_config, recursive=True) }}"
+  no_log: true
+
 - include: prepare.yml
 - include: diffie-hellman.yml
 - include: install.yml
