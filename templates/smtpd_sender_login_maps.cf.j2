@@ -1,0 +1,5 @@
+user = {{ _postfix_mysql.user }}
+password = {{ _postfix_mysql.pass }}
+hosts = {{ _postfix_mysql.host }}
+dbname = {{ _postfix_mysql.db }}
+query = SELECT users FROM alias_users_maps WHERE alias = '%s'

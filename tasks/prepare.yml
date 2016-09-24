@@ -1,0 +1,8 @@
+---
+
+- name: Additional group memberships
+  when: additional_group_memberships != None
+  user: name={{postfix_user}} append=yes groups="{{item}}"
+  with_items: "{{additional_group_memberships}}"
+  notify:
+    - restart postfix

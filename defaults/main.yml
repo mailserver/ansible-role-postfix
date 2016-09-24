@@ -1,0 +1,49 @@
+---
+
+os:
+  rundir: /var/run
+  logdir: /var/log
+  prefix:
+
+postfix_hostname: "{{ ansible_fqdn }}"
+
+postfix_default_config:
+  
+  # Required
+  hostname: "{{ postfix_hostname }}"
+  
+  # Catchall
+  local_catchall_alias: "postmaster@{{ postfix_hostname }}"
+  local_catchall_alias_regexp_file: "local_catchall_alias.regexp"
+  
+  # Encryption
+  ssl:
+    key: "/etc/letsencrypt/live/{{ postfix_hostname }}/privkey.pem"
+    certificate: "/etc/letsencrypt/live/{{ postfix_hostname }}/fullchain.pem"
+    dhparams:
+      size: 2048
+      file: "{{os.prefix}}/etc/ssl/postfix_dhparams.pem"
+  
+  # Daemon User and Group
+  daemon_user: "postfix"
+  milter_group: "milter"
+
+  recipient_delimiter:
+  lmtp_socket: 
+
+  # Milters
+  milters:
+    # Milters for mail from authenticated users submit mail on 587
+    submission: []
+    # Milters for mail incoming on port 25. Rejection will cause rejection of message in SMTP conversation
+    incoming_recipient_restriction: []
+    # Milters meant to process mail: Spamassassin, ClamAV, etc.
+    incoming_smtpd: []
+
+# MySQL
+postfix_default_mysql:
+  host: "127.0.0.1"
+  port: 3306
+  user: "postfix"
+  pass: ""
+  db: "maildb"

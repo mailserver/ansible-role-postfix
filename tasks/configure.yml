@@ -1,0 +1,26 @@
+---
+
+- name: Postfix is configured
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ postfix_config_dir }}/{{ item.name }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - name: main.cf
+      mode: "u=rw,g=r,o=r"
+    - name: master.cf
+      mode: "u=rw,g=r,o=r"
+    - name: header_checks.pcre
+      mode: "u=rw,g=r,o=r"
+    - name: smtpd_sender_login_maps.cf
+      mode: "u=rw,g=,o="
+    - name: virtual_alias_maps.cf
+      mode: "u=rw,g=,o="
+    - name: virtual_mailbox_domains.cf
+      mode: "u=rw,g=,o="
+    - name: virtual_mailbox_maps.cf
+      mode: "u=rw,g=,o="
+    - name: "{{local_catchall_alias_regexp_file}}"
+      mode: "u=rw,g=r,o=r"
+  notify:
+    - restart postfix

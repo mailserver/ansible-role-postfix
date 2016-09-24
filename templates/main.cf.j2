@@ -1,0 +1,52 @@
+append_dot_mydomain = no
+readme_directory = no
+
+# Manual high cipherlist because Postfix's is crappy
+tls_high_cipherlist = HIGH:MEDIUM:!ADH:!RC4:!aNULL:!MD5:!DSS:!DES:!3DES:!SEED:!kRSA
+tls_preempt_cipherlist = yes
+
+smtpd_tls_cert_file = {{postfix_ssl_certificate|mandatory}}
+smtpd_tls_key_file = {{postfix_ssl_key|mandatory}}
+smtpd_tls_mandatory_protocols = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
+smtpd_tls_mandatory_ciphers = high
+
+smtpd_tls_protocols=!SSLv2,!SSLv3,!TLSv1,!TLSv1.1
+
+smtp_tls_security_level = may
+
+# The paramter file is updated by /etc/cron.weekly/postfix_dhparams.sh to provide PFS
+smtpd_tls_dh1024_param_file = {{postfix_dhparams_file}}
+
+smtpd_tls_received_header = yes
+smtpd_tls_loglevel = 1
+smtp_tls_loglevel = 1
+
+{% if local_catchall_alias | length == 0 %}
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+{% else %}
+alias_maps = regexp:{{postfix_config_dir}}/{{local_catchall_alias_regexp_file}}
+{% endif %}
+myhostname = {{hostname}}
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+
+virtual_transport = lmtp:unix:{{lmtp_socket}}
+virtual_mailbox_domains = mysql:{{postfix_config_dir}}/virtual_mailbox_domains.cf
+virtual_mailbox_maps = mysql:{{postfix_config_dir}}/virtual_mailbox_maps.cf
+virtual_alias_maps = mysql:{{postfix_config_dir}}/virtual_alias_maps.cf
+
+recipient_delimiter = {{ recipient_delimiter|default("") }}
+
+smtpd_milters = {% for milter in incoming_smtpd_milters -%}
+unix:{{milter.socket}}{% if not loop.last %},{% endif %}
+{% endfor %} 
+
+milter_connect_macros = j {daemon_name} v {if_name} _
+
+header_checks=pcre:{{postfix_config_dir}}/header_checks.pcre
+
+# Definitions used in master.cf due to Postfix master.cf whitespacing limitations
+{% for milter in incoming_recipient_restriction_milters %}
+custom_recipient_restriction_{{milter.name}} = check_policy_service unix:{{milter.socket}}
+{% endfor %}
+
