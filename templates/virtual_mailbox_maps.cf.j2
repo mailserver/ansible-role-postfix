@@ -1,5 +1,5 @@
 user = {{ _postfix_mysql.user }}
-password = {{ _postfix_mysql.pass }}
+password = {{ _postfix_mysql.password }}
 hosts = {{ _postfix_mysql.host }}
-dbname = {{ _postfix_mysql.db }}
+dbname = {{ _postfix_mysql.database }}
 query = SELECT mail FROM virtual_mailbox_maps WHERE mail = '%s'

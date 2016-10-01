@@ -46,6 +46,6 @@ Examples
     host: "127.0.0.1"
     port: 3306
     user: "postfix"
-    pass: "correct horse battery staple"
-    db: "maildb"
+    password: "correct horse battery staple"
+    database: "maildb"
 ```
