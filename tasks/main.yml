@@ -5,6 +5,5 @@
   no_log: true
 
 - include: prepare.yml
-- include: diffie-hellman.yml
 - include: install.yml
 - include: configure.yml

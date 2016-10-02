@@ -21,7 +21,6 @@ postfix_default_config:
     key: "/etc/letsencrypt/live/{{ postfix_hostname }}/privkey.pem"
     certificate: "/etc/letsencrypt/live/{{ postfix_hostname }}/fullchain.pem"
     dhparams:
-      size: 2048
       file: "{{os.prefix}}/etc/ssl/postfix_dhparams.pem"
   
   # Daemon User and Group
