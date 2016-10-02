@@ -1,9 +1,4 @@
 ---
-dependencies:
-  - role: gronke.dhparam
-    dhparam_file: "{{ postfix_config.ssl.dhparams.file | default(postfix_default_config.ssl.dhparams.file) }}"
-    dhparam_size: "{{ postfix_config.ssl.dhparams.size | default(postfix_default_config.ssl.dhparams.size) }}"
-    dhparam_update_enabled: true
 
 galaxy_info:
   author: The Mailserver Project
