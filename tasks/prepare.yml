@@ -6,6 +6,12 @@
     state: present
     system: true
 
+- name: milter group exists
+  group:
+    name: "{{ _postfix_config.milter_group }}"
+    state: present
+    system: true
+
 - name: postfix daemon user exists and is member of milter group
   user:
     name: "{{ _postfix_config.daemon_user }}"
