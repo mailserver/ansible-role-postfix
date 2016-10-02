@@ -24,3 +24,10 @@
       mode: "u=rw,g=r,o=r"
   notify:
     - restart postfix
+
+- name: Enable Postfix service
+  service:
+    name: postfix
+    enabled: true
+  notify:
+    - restart postfix 
