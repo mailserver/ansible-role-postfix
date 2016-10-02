@@ -24,7 +24,7 @@ Examples
       key: "/etc/letsencrypt/live/mail.example.com/privkey.pem"
       certificate: "/etc/letsencrypt/live/mail.example.com/fullchain.pem"
       dhparams:
-        size: 2048
+        file: "/etc/ssl/postfix_dhparams.pem"
     daemon_user: "postfix"
     milter_group: "milter" 
     milters:
@@ -41,7 +41,6 @@ Examples
           socket: "milters/spamass.sock"
         - name: clamav
           socket: "milters/clamav-milter.ctl"
-    lmtp_socket: 
   postfix_mysql:
     host: "127.0.0.1"
     port: 3306
