@@ -12,7 +12,7 @@ smtp            inet    n       -	      -     	-	      -	      smtpd
   -o smtpd_helo_required=yes
   -o smtpd_helo_restrictions=reject_invalid_helo_hostname,reject_non_fqdn_helo_hostname
   -o smtpd_sender_restrictions=reject_non_fqdn_sender,reject_unknown_sender_domain
-  -o smtpd_recipient_restrictions=reject_non_fqdn_recipient,reject_unauth_destination,{% for milter in  incoming_recipient_restriction_milters -%}
+  -o smtpd_recipient_restrictions=reject_non_fqdn_recipient,reject_unauth_destination,{% for milter in  _postfix_config.milters.incoming_recipient_restriction -%}
 $custom_recipient_restriction_{{milter.name}}{% if not loop.last %},{%endif%}
 {% endfor %} 
 
@@ -23,10 +23,10 @@ submission      inet    n       -       n       -       -       smtpd
   -o smtpd_sasl_type=dovecot
   -o smtpd_sasl_path=private/auth
   -o smtpd_sasl_security_options=noanonymous
-  -o smtpd_sender_login_maps=mysql:{{postfix_config_dir}}/smtpd_sender_login_maps.cf
+  -o smtpd_sender_login_maps=mysql:{{_postfix_config.config_dir}}/smtpd_sender_login_maps.cf
   -o smtpd_client_restrictions=permit_sasl_authenticated,reject
   -o smtpd_relay_restrictions=reject_sender_login_mismatch,permit_sasl_authenticated,reject
-  -o smtpd_milters={% for milter in submission_milters -%}
+  -o smtpd_milters={% for milter in _postfix_config.milters.submission -%}
 unix:{{milter.socket}}{% if not loop.last %},{% endif %}
 {% endfor %}
 

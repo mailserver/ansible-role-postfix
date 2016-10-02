@@ -11,6 +11,8 @@ postfix_default_config:
   
   # Required
   hostname: "{{ postfix_hostname }}"
+
+  config_dir: "{{os.prefix}}/etc/postfix"
   
   # Catchall
   local_catchall_alias: "postmaster@{{ postfix_hostname }}"

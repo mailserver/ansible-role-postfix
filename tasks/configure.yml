@@ -3,7 +3,7 @@
 - name: Postfix is configured
   template:
     src: "{{ item.name }}.j2"
-    dest: "{{ postfix_config_dir }}/{{ item.name }}"
+    dest: "{{ _postfix_config.config_dir }}/{{ item.name }}"
     mode: "{{ item.mode }}"
   with_items:
     - name: main.cf
@@ -20,7 +20,7 @@
       mode: "u=rw,g=,o="
     - name: virtual_mailbox_maps.cf
       mode: "u=rw,g=,o="
-    - name: "{{local_catchall_alias_regexp_file}}"
+    - name: "{{_postfix_config.local_catchall_alias_regexp_file}}"
       mode: "u=rw,g=r,o=r"
   notify:
     - restart postfix
