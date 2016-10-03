@@ -15,8 +15,9 @@ postfix_default_config:
   config_dir: "{{os.prefix}}/etc/postfix"
   
   # Catchall
-  local_catchall_alias: "postmaster@{{ postfix_hostname }}"
-  local_catchall_alias_regexp_file: "local_catchall_alias.regexp"
+  #  local_catchall_alias overrides _all_ entries in /etc/aliases,
+  #  be careful not to introduce a forwarding loop
+  local_catchall_alias: ""
   
   # Encryption
   ssl:
