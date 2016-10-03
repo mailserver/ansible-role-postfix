@@ -38,6 +38,9 @@ postfix_default_config:
   # lmtp_socket: inet:ipv?:tcpport
   lmtp_socket: unix:private/lmtp
   
+  # sasl_path: rel/path/to/socket
+  # sasl_path: inet:ipv?:tcpport
+  sasl_path: private/auth
 
   # Milters
   milters:
