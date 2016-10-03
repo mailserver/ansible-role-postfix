@@ -32,7 +32,7 @@ alias_maps = regexp:{{_postfix_config.config_dir}}/local_catchall_alias.regexp
 myhostname = {{postfix_hostname}}
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 
-virtual_transport = lmtp:unix:{{_postfix_config.lmtp_socket}}
+virtual_transport = lmtp:{{_postfix_config.lmtp_socket}}
 virtual_mailbox_domains = mysql:{{_postfix_config.config_dir}}/virtual_mailbox_domains.cf
 virtual_mailbox_maps = mysql:{{_postfix_config.config_dir}}/virtual_mailbox_maps.cf
 virtual_alias_maps = mysql:{{_postfix_config.config_dir}}/virtual_alias_maps.cf

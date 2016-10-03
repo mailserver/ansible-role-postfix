@@ -33,7 +33,11 @@ postfix_default_config:
   milter_group: "milter"
 
   recipient_delimiter:
-  lmtp_socket: 
+
+  # lmtp_socket: unix:rel/path/to/socket
+  # lmtp_socket: inet:ipv?:tcpport
+  lmtp_socket: unix:private/lmtp
+  
 
   # Milters
   milters:
