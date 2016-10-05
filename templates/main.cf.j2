@@ -16,8 +16,7 @@ smtpd_tls_protocols=!SSLv2,!SSLv3,!TLSv1,!TLSv1.1
 
 smtp_tls_security_level = may
 
-# The paramter file is updated by /etc/cron.weekly/postfix_dhparams.sh to provide PFS
-smtpd_tls_dh1024_param_file = {{_postfix_config.ssl.dhparams.file}}
+smtpd_tls_dh1024_param_file = {{_postfix_config.ssl.dhparam.file}}
 
 smtpd_tls_received_header = yes
 smtpd_tls_loglevel = 1
