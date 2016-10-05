@@ -20,3 +20,11 @@
     home: "{{ _postfix_config.daemon_user_home }}"
     append: true
     system: true
+
+- name: milter directory exists and is owned by milter group
+  file:
+    path: "{{ _postfix_config.daemon_user_home }}/milters"
+    state: directory
+    owner: "{{ _postfix_config.daemon_user }}"
+    group: "{{ _postfix_config.milter_group }}"
+    mode: "g=rwx"
