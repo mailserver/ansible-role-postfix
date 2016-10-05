@@ -15,8 +15,9 @@ postfix_default_config:
   config_dir: "{{os.prefix}}/etc/postfix"
   
   # Catchall
-  local_catchall_alias: "postmaster@{{ postfix_hostname }}"
-  local_catchall_alias_regexp_file: "local_catchall_alias.regexp"
+  #  local_catchall_alias overrides _all_ entries in /etc/aliases,
+  #  be careful not to introduce a forwarding loop
+  local_catchall_alias: ""
   
   # Encryption
   ssl:
@@ -32,7 +33,14 @@ postfix_default_config:
   milter_group: "milter"
 
   recipient_delimiter:
-  lmtp_socket: 
+
+  # lmtp_socket: unix:rel/path/to/socket
+  # lmtp_socket: inet:ipv?:tcpport
+  lmtp_socket: unix:private/lmtp
+  
+  # sasl_path: rel/path/to/socket
+  # sasl_path: inet:ipv?:tcpport
+  sasl_path: private/auth
 
   # Milters
   milters:

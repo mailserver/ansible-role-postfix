@@ -20,7 +20,7 @@
       mode: "u=rw,g=,o="
     - name: virtual_mailbox_maps.cf
       mode: "u=rw,g=,o="
-    - name: "{{_postfix_config.local_catchall_alias_regexp_file}}"
+    - name: "local_catchall_alias.regexp"
       mode: "u=rw,g=r,o=r"
   notify:
     - restart postfix
