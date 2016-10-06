@@ -45,6 +45,7 @@ unix:{{milter.socket}}{% if not loop.last %},{% endif %}
 milter_connect_macros = j {daemon_name} v {if_name} _
 
 header_checks=pcre:{{_postfix_config.config_dir}}/header_checks.pcre
+smtp_header_checks=pcre:{{_postfix_config.config_dir}}/smtp_header_checks.pcre
 
 # Definitions used in master.cf due to Postfix master.cf whitespacing limitations
 {% for milter in _postfix_config.milters.incoming_recipient_restriction %}

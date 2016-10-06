@@ -12,6 +12,8 @@
       mode: "u=rw,g=r,o=r"
     - name: header_checks.pcre
       mode: "u=rw,g=r,o=r"
+    - name: smtp_header_checks.pcre
+      mode: "u=rw,g=r,o=r"
     - name: smtpd_sender_login_maps.cf
       mode: "u=rw,g=,o="
     - name: virtual_alias_maps.cf
