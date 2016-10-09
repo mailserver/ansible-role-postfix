@@ -36,7 +36,7 @@ postfix_default_config:
 
   # lmtp_socket: unix:rel/path/to/socket
   # lmtp_socket: inet:ipv?:tcpport
-  lmtp_socket: unix:private/lmtp
+  lmtp_socket: unix:private/dovecot-lmtp
   
   # sasl_path: rel/path/to/socket
   # sasl_path: inet:ipv?:tcpport
