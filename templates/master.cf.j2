@@ -26,10 +26,10 @@ submission      inet    n       -       n       -       -       smtpd
   -o smtpd_sender_login_maps=mysql:{{_postfix_config.config_dir}}/smtpd_sender_login_maps.cf
   -o smtpd_client_restrictions=permit_sasl_authenticated,reject
   -o smtpd_relay_restrictions=reject_sender_login_mismatch,permit_sasl_authenticated,reject
-  -o smtp_header_checks=pcre:/etc/postfix/smtp_header_checks.pcre
   -o smtpd_milters={% for milter in _postfix_config.milters.submission -%}
 unix:{{milter.socket}}{% if not loop.last %},{% endif %}
 {% endfor %}
+  -o smtp_header_checks=pcre:/etc/postfix/smtp_header_checks.pcre
 
 # Postfix subsystems
 pickup          fifo    n       -       -       60      1       pickup
