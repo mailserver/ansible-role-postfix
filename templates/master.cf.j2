@@ -29,6 +29,7 @@ submission      inet    n       -       n       -       -       smtpd
   -o smtpd_milters={% for milter in _postfix_config.milters.submission -%}
 unix:{{milter.socket}}{% if not loop.last %},{% endif %}
 {% endfor %}
+
   -o smtp_header_checks=pcre:/etc/postfix/smtp_header_checks.pcre
 
 # Postfix subsystems
