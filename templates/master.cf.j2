@@ -29,8 +29,7 @@ submission      inet    n       -       n       -       -       smtpd
   -o smtpd_milters={% for milter in _postfix_config.milters.submission -%}
 unix:{{milter.socket}}{% if not loop.last %},{% endif %}
 {% endfor %}
-
-  -o smtp_header_checks=pcre:/etc/postfix/smtp_header_checks.pcre
+  -o cleanup_service_name=subcleanup
 
 # Postfix subsystems
 pickup          fifo    n       -       -       60      1       pickup
@@ -57,3 +56,5 @@ lmtp            unix    -       -       -       -       -       lmtp
 anvil           unix    -       -       -       -       1       anvil
 scache          unix    -       -       -       -       1       scache  
 
+subcleanup      unix    n       -       -       -       0       cleanup
+    -o header_checks=pcre:/etc/postfix/smtp_header_checks.pcre

@@ -1,3 +1,6 @@
 # remove sensitive information from mail
-/^User-Agent:.*/ IGNORE
-/^Received: from.*ESMTPSA.*/m IGNORE
+/^Received:.*with ESMTPSA/    IGNORE
+/^X-Originating-IP:/          IGNORE
+/^X-Mailer:/                  IGNORE
+/^Mime-Version:/              IGNORE
+/^User-Agent:/                IGNORE
