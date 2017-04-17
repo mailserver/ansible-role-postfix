@@ -51,6 +51,9 @@ postfix_default_config:
     # Milters meant to process mail: Spamassassin, ClamAV, etc.
     incoming_smtpd: []
 
+  # Transports
+  transports: []
+
 # MySQL
 postfix_default_mysql:
   host: "127.0.0.1"
