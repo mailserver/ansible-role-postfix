@@ -1,0 +1,5 @@
+user = {{ _postfix_mysql.user }}
+password = {{ _postfix_mysql.password }}
+hosts = {{ _postfix_mysql.host }}
+dbname = {{ _postfix_mysql.database }}
+query = SELECT transport FROM transport WHERE domain='%s'
