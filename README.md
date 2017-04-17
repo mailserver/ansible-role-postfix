@@ -27,6 +27,7 @@ Examples
         file: "/etc/ssl/postfix_dhparams.pem"
     daemon_user: "postfix"
     milter_group: "milter" 
+
     milters:
       submission:
         - name: opendkim
@@ -41,6 +42,17 @@ Examples
           socket: "milters/spamass.sock"
         - name: clamav
           socket: "milters/clamav-milter.ctl"
+
+    transports:
+      - name: mailman
+        unpriv: 'n'
+        chroot: 'n'
+        command: 'pipe'
+        args:
+          flags: 'FR'
+          user: 'list'
+          argv: /usr/lib/mailman/bin/postfix-to-mailman.py
+
   postfix_mysql:
     host: "127.0.0.1"
     port: 3306
