@@ -49,9 +49,8 @@ Examples
         chroot: 'n'
         command: 'pipe'
         args:
-          flags: 'FR'
-          user: 'list'
-          argv: /usr/lib/mailman/bin/postfix-to-mailman.py
+          - 'flags=FR user=list argv=/usr/lib/mailman/bin/postfix-to-mailman.py'
+          - '${nexthop} ${user}'
 
   postfix_mysql:
     host: "127.0.0.1"
