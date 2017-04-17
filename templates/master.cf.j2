@@ -31,6 +31,12 @@ unix:{{milter.socket}}{% if not loop.last %},{% endif %}
 {% endfor %}
   -o cleanup_service_name=subcleanup
 
+{% for transport in _postfix_config.transports %}
+{{transport.name}} {{transport.type | default('unix')}}  {{transport.private | default('-')}} {{transport.unpriv | default('-')}} {{transport.chroot | default('-')}} {{transport.wakeup | default('-')}} {{transport.maxproc | default('-')}} {{transport.command | default('-')}}
+  {% for (key, value) in (args | default([])) %}{{key}}={{value}}{% if not loop.last %} {% endif %}{% endfor %}
+  {{transport.nexthop | default('${nexthop}')}} {{transport.user | default('${user}')}}
+{% endfor %}
+
 # Postfix subsystems
 pickup          fifo    n       -       -       60      1       pickup
 cleanup         unix    n       -       -       -       0       cleanup
