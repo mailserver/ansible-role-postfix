@@ -50,8 +50,8 @@ unix:{{milter.socket}}{% if not loop.last %},{% endif %}
   -o cleanup_service_name=subcleanup
 
 {% for transport in _postfix_config.transports %}
-{{transport.name}} {{transport.type | default('unix')}}  {{transport.private | default('-')}} {{transport.unpriv | default('-')}} {{transport.chroot | default('-')}} {{transport.wakeup | default('-')}} {{transport.maxproc | default('-')}} {{transport.command | default('-')}}
-{% for line in (args | default([])) %}
+{{transport.name}} {{transport.type | default('unix')}} {{transport.private | default('-')}} {{transport.unpriv | default('-')}} {{transport.chroot | default('-')}} {{transport.wakeup | default('-')}} {{transport.maxproc | default('-')}} {{transport.command | default('-')}}
+{% for line in (transport.args | default([])) %}
   {{line}}
 {% endfor %}
 {% endfor %}
