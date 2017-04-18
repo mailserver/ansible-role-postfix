@@ -16,6 +16,24 @@ smtp            inet    n       -	      -     	-	      -	      smtpd
 $custom_recipient_restriction_{{milter.name}}{% if not loop.last %},{%endif%}
 {% endfor %} 
 
+# Listen on smtps port (465) for (real) authenticated users
+smtps      inet    n       -       n       -       -       smtpd
+  -o smtpd_tls_wrappermode=yes
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_tls_auth_only=yes
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_sasl_type=dovecot
+  -o smtpd_sasl_path={{_postfix_config.sasl_path}}
+  -o smtpd_sasl_security_options=noanonymous
+  -o smtpd_sender_login_maps=mysql:{{_postfix_config.config_dir}}/smtpd_sender_login_maps.cf
+  -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+  -o smtpd_relay_restrictions=reject_sender_login_mismatch,permit_sasl_authenticated,reject
+  -o smtpd_milters={% for milter in _postfix_config.milters.submission -%}
+unix:{{milter.socket}}{% if not loop.last %},{% endif %}
+{% endfor %}
+  -o cleanup_service_name=subcleanup
+
 # Listen on submission port (587) for (real) authenticated users
 submission      inet    n       -       n       -       -       smtpd
   -o smtpd_tls_security_level=encrypt
