@@ -19,7 +19,6 @@ $custom_recipient_restriction_{{milter.name}}{% if not loop.last %},{%endif%}
 # Listen on smtps port (465) for (real) authenticated users
 smtps      inet    n       -       n       -       -       smtpd
   -o smtpd_tls_wrappermode=yes
-  -o smtpd_sasl_auth_enable=yes
   -o smtpd_tls_auth_only=yes
   -o smtpd_tls_security_level=encrypt
   -o smtpd_sasl_auth_enable=yes
@@ -32,6 +31,7 @@ smtps      inet    n       -       n       -       -       smtpd
   -o smtpd_milters={% for milter in _postfix_config.milters.submission -%}
 unix:{{milter.socket}}{% if not loop.last %},{% endif %}
 {% endfor %}
+
   -o cleanup_service_name=subcleanup
 
 # Listen on submission port (587) for (real) authenticated users
@@ -47,6 +47,7 @@ submission      inet    n       -       n       -       -       smtpd
   -o smtpd_milters={% for milter in _postfix_config.milters.submission -%}
 unix:{{milter.socket}}{% if not loop.last %},{% endif %}
 {% endfor %}
+
   -o cleanup_service_name=subcleanup
 
 {% for transport in _postfix_config.transports %}
