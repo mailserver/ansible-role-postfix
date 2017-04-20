@@ -79,7 +79,7 @@
     - name: smtpd_sender_login_maps.cf
       mode: "u=rw,g=,o="
     - name: transport_maps.cf
-      mode: "u=rw,g=,o="
+      mode: "u=rw,g=r,o="
     - name: virtual_alias_maps.cf
       mode: "u=rw,g=,o="
     - name: virtual_mailbox_domains.cf
