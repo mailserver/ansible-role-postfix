@@ -32,7 +32,7 @@ smtps      inet    n       -       n       -       -       smtpd
 unix:{{milter.socket}}{% if not loop.last %},{% endif %}
 {% endfor %}
 
-  -o cleanup_service_name=subcleanup
+  -o header_checks=pcre:/etc/postfix/smtp_header_checks.pcre
 
 # Listen on submission port (587) for (real) authenticated users
 submission      inet    n       -       n       -       -       smtpd
@@ -48,7 +48,7 @@ submission      inet    n       -       n       -       -       smtpd
 unix:{{milter.socket}}{% if not loop.last %},{% endif %}
 {% endfor %}
 
-  -o cleanup_service_name=subcleanup
+  -o header_checks=pcre:/etc/postfix/smtp_header_checks.pcre
 
 {% for transport in _postfix_config.transports %}
 {{transport.name}} {{transport.type | default('unix')}} {{transport.private | default('-')}} {{transport.unpriv | default('-')}} {{transport.chroot | default('-')}} {{transport.wakeup | default('-')}} {{transport.maxproc | default('-')}} {{transport.command | default('-')}}
@@ -81,6 +81,3 @@ virtual         unix    -       n       n       -       -       virtual
 lmtp            unix    -       -       -       -       -       lmtp
 anvil           unix    -       -       -       -       1       anvil
 scache          unix    -       -       -       -       1       scache  
-
-subcleanup      unix    n       -       -       -       0       cleanup
-    -o header_checks=pcre:/etc/postfix/smtp_header_checks.pcre
