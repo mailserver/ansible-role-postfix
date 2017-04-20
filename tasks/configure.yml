@@ -1,5 +1,67 @@
 ---
 
+# Postfix main.cf
+
+#   postfix_main.transport_maps overrides all default transport maps
+#   postfix_main._transport_maps appends to the default transport maps
+
+- set_fact:
+    _transport_maps_override_enabled: '{{ (postfix_main is defined) and (postfix_main.transport_maps is defined) }}'
+
+- set_fact:
+    _postfix_transport_maps: '{{ postfix_main.transport_maps }}'
+  when: _transport_maps_override_enabled
+
+- set_fact:
+    _postfix_transport_maps: '{{ postfix_default_main.transport_maps }}'
+  when: not _transport_maps_override_enabled
+
+- set_fact:
+    _postfix_transport_maps: '{{ _postfix_transport_maps + postfix_main._transport_maps }}'
+  when: (postfix_main is defined) and (postfix_main._transport_maps is defined)
+
+#   postfix_main.virtual_alias_maps overrides all virtual_alias_maps
+#   postfix_main._virtual_alias_maps appends to default virtual alias maps
+
+- set_fact:
+    _virtual_alias_maps_override_enabled: '{{ (postfix_main is defined) and (postfix_main.virtual_alias_maps is defined) }}'
+
+- set_fact:
+    _postfix_virtual_alias_maps: '{{ postfix_main.virtual_alias_maps }}'
+  when: _virtual_alias_maps_override_enabled
+
+- set_fact:
+    _postfix_virtual_alias_maps: '{{ postfix_default_main.virtual_alias_maps }}'
+  when: not _virtual_alias_maps_override_enabled
+
+- set_fact:
+    _postfix_virtual_alias_maps: '{{ _postfix_virtual_alias_maps + postfix_main._virtual_alias_maps }}'
+  when: (postfix_main is defined) and (postfix_main._virtual_alias_maps is defined)
+
+#   postfix_main.alias_maps overrides all default alias_maps
+#   postfix_main._alias_maps appends to the default alias maps
+
+- set_fact:
+    _alias_maps_override_enabled: '{{ (postfix_main is defined) and (postfix_main.alias_maps is defined) }}'
+
+- set_fact:
+    _postfix_alias_maps: '{{ postfix_main.alias_maps }}'
+  when: _alias_maps_override_enabled
+
+- set_fact:
+    _postfix_alias_maps: '{{ postfix_default_main.alias_maps }}'
+  when: not _alias_maps_override_enabled
+
+- set_fact:
+    _postfix_alias_maps: '{{ _postfix_virtual_alias_maps + postfix_main._alias_maps }}'
+  when: (postfix_main is defined) and (postfix_main._alias_maps is defined)
+
+# catchall has to be the last item  
+- set_fact:
+    _postfix_alias_maps: '{{ _postfix_alias_maps + ["regexp:{{_postfix_config.config_dir}}/local_catchall_alias.regexp"] }}'
+  when: (_postfix_config.local_catchall_alias | length) > 0
+
+# Postfix configuration
 - name: Postfix is configured
   template:
     src: "{{ item.name }}.j2"

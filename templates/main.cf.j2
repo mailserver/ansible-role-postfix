@@ -22,20 +22,27 @@ smtpd_tls_received_header = yes
 smtpd_tls_loglevel = 1
 smtp_tls_loglevel = 1
 
-{% if _postfix_config.local_catchall_alias | length == 0 %}
-alias_maps = hash:/etc/aliases
-alias_database = hash:/etc/aliases
-{% else %}
-alias_maps = regexp:{{_postfix_config.config_dir}}/local_catchall_alias.regexp
-{% endif %}
+alias_maps = {% for alias_map in _postfix_alias_maps -%}
+{{alias_map}}{% if not loop.last %},{% endif %}
+{% endfor %}
+
+alias_database = {% for alias_map in _postfix_alias_maps -%}
+{{alias_map}}{% if not loop.last %},{% endif %}
+{% endfor %}
+
 myhostname = {{postfix_hostname}}
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 
 virtual_transport = lmtp:{{_postfix_config.lmtp_socket}}
 virtual_mailbox_domains = mysql:{{_postfix_config.config_dir}}/virtual_mailbox_domains.cf
 virtual_mailbox_maps = mysql:{{_postfix_config.config_dir}}/virtual_mailbox_maps.cf
-virtual_alias_maps = mysql:{{_postfix_config.config_dir}}/virtual_alias_maps.cf
-trasport_maps = proxy:mysql:{{_postfix_config.config_dir}}/transport_maps.cf
+virtual_alias_maps = {% for virtual_alias_map in _postfix_virtual_alias_maps -%}
+{{virtual_alias_map}}{% if not loop.last %},{% endif %}
+{% endfor %}
+
+transport_maps = {% for transport_map in _postfix_transport_maps -%}
+{{transport_map}}{% if not loop.last %},{% endif %}
+{% endfor %}
 
 recipient_delimiter = {{ _postfix_config.recipient_delimiter|default("") }}
 

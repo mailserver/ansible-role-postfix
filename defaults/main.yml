@@ -7,6 +7,14 @@ os:
 
 postfix_hostname: "{{ ansible_fqdn }}"
 
+postfix_default_main:
+  alias_maps:
+    - 'hash:/etc/aliases'
+  transport_maps:
+    - 'proxy:mysql:{{_postfix_config.config_dir}}/transport_maps.cf'
+  virtual_alias_maps:
+    - 'mysql:{{_postfix_config.config_dir}}/virtual_alias_maps.cf'
+
 postfix_default_config:
   
   # Required
