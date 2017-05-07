@@ -9,10 +9,10 @@ tls_preempt_cipherlist = yes
 
 smtpd_tls_cert_file = {{_postfix_config.ssl.certificate|mandatory}}
 smtpd_tls_key_file = {{_postfix_config.ssl.key|mandatory}}
-smtpd_tls_mandatory_protocols = !SSLv2,!SSLv3,!TLSv1,!TLSv1.1
-smtpd_tls_mandatory_ciphers = high
+smtpd_tls_mandatory_protocols = {{ __postfix_config.ssl.protocols }}
+smtpd_tls_mandatory_ciphers = {{ __postfix_config.ssl.ciphers }}
 
-smtpd_tls_protocols=!SSLv2,!SSLv3,!TLSv1,!TLSv1.1
+smtpd_tls_protocols = {{ __postfix_config.ssl.protocols }}
 
 smtp_tls_security_level = may
 

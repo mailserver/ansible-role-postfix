@@ -6,7 +6,6 @@
 - set_fact: _postfix_mysql="{{ postfix_default_mysql | combine(postfix_mysql, recursive=True) }}"
   no_log: true
 
-
 - include: prepare.yml
 - include: install.yml
 - include: configure.yml

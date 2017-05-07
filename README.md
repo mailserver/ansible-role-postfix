@@ -19,12 +19,18 @@ Examples
 - role: postfix
   postfix_hostname: "mail.example.com"
   postfix_config:
+
     local_catchall_alias: "postmaster@mail.example.com"
+
     ssl:
       key: "/etc/letsencrypt/live/mail.example.com/privkey.pem"
       certificate: "/etc/letsencrypt/live/mail.example.com/fullchain.pem"
       dhparams:
         file: "/etc/ssl/postfix_dhparams.pem"
+
+      # Workaround for Outlook 2013 that requires TLSv1
+      #protocols: "!SSLv2,!SSLv3"
+
     daemon_user: "postfix"
     milter_group: "milter" 
 

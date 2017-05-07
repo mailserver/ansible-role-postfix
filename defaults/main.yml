@@ -33,6 +33,9 @@ postfix_default_config:
     certificate: "/etc/letsencrypt/live/{{ postfix_hostname }}/fullchain.pem"
     dhparam:
       file: "{{os.prefix}}/etc/ssl/postfix_dhparams.pem"
+    protocols: "!SSLv2,!SSLv3,!TLSv1,!TLSv1.1"
+    ciphers: "high"
+
   
   # Daemon User and Group
   daemon_user: "postfix"
